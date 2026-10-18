@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bloomery — цветочный магазин</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fcf7f5;--surface:#fffefc;--text:#212926;--muted:#666b66;--accent:#e0406b;--green:#2b4f40;
+  --hero:#fad6d9;--cream:#f5e5d6;--promo-pink:#f7c7cc;--promo-green:#ccdbc2;--shadow:0 6px 20px rgba(33,41,38,.08);
+  --c1:#fbd5da;--c2:#e8a0ab;--c3:#ccdbc2;--c4:#f5e5d6;--c5:#f7c7cc;--c6:#f5d09f;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1a1517;--surface:#241e20;--text:#f4ece9;--muted:#b9adaa;--accent:#f0587f;--green:#bfe0cd;
+  --hero:#3b2429;--cream:#3a2f29;--promo-pink:#4a2a31;--promo-green:#2c3a2f;--shadow:none;
+  --c1:#4a2f35;--c2:#6b3640;--c3:#2f3d33;--c4:#3d322b;--c5:#4a2d36;--c6:#5a4528}}
+:root[data-theme="dark"]{
+  --bg:#1a1517;--surface:#241e20;--text:#f4ece9;--muted:#b9adaa;--accent:#f0587f;--green:#bfe0cd;
+  --hero:#3b2429;--cream:#3a2f29;--promo-pink:#4a2a31;--promo-green:#2c3a2f;--shadow:none;
+  --c1:#4a2f35;--c2:#6b3640;--c3:#2f3d33;--c4:#3d322b;--c5:#4a2d36;--c6:#5a4528}
+html{scroll-behavior:smooth;scroll-padding-top:calc(90px + env(safe-area-inset-top,0px))}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1440px;margin:0 auto;padding:0 clamp(16px,5vw,70px)}
+h1,h2,h3,p{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 22px;border-radius:24px;font-weight:700;font-size:14px;border:0;cursor:pointer;background:var(--accent);color:#fffefc;transition:transform .15s,box-shadow .15s,opacity .15s;font-family:inherit}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(224,64,107,.3)}
+.btn--light{background:var(--surface);color:var(--text)}
+.btn--link{background:transparent;color:var(--accent);padding:0}
+.btn--link:hover{box-shadow:none;transform:translateX(3px)}
+
+/* header */
+.header{position:sticky;top:0;z-index:20;background:var(--surface);box-shadow:var(--shadow)}
+.header .wrap{display:flex;align-items:center;gap:30px;height:76px}
+.logo b{display:block;font-size:26px;line-height:32px}
+.logo small{display:block;font-size:11px;color:var(--muted);line-height:14px}
+.nav{display:flex;gap:28px;font-size:13px;margin-left:10px}
+.nav a{padding:8px 0;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.nav a:hover,.nav a.active{color:var(--accent);border-color:var(--accent)}
+.contact{margin-left:auto;display:flex;align-items:center;gap:16px}
+.phone{font-weight:700;font-size:14px;white-space:nowrap}
+.burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer;margin-left:auto;color:var(--text)}
+.burger span,.burger span::before,.burger span::after{display:block;width:22px;height:2px;background:currentColor;position:relative;margin:auto;border-radius:2px}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-7px}.burger span::after{top:7px}
+
+/* hero */
+.hero{background:var(--hero)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center;min-height:420px;padding-top:36px;padding-bottom:36px}
+.hero p.lead{font-size:20px;color:var(--muted);max-width:520px}
+.hero h1{font-size:clamp(34px,4.4vw,48px);line-height:1.2;margin:18px 0 28px}
+.actions{display:flex;gap:16px;flex-wrap:wrap}
+.art{position:relative;background:var(--cream);border-radius:28px;aspect-ratio:650/350;overflow:hidden}
+.art svg{position:absolute;inset:0;width:100%;height:100%}
+.art b{position:absolute;left:3%;top:4%;font-size:clamp(16px,1.6vw,22px);line-height:1.3;color:var(--green)}
+
+/* sections */
+section{padding:40px 0}
+h2{font-size:clamp(24px,2.4vw,30px);line-height:1.3}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;margin-top:24px}
+.card{background:var(--surface);border-radius:12px;overflow:hidden;padding-bottom:16px;transition:transform .2s,box-shadow .2s;cursor:pointer}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(33,41,38,.12)}
+.card svg{display:block;width:100%;height:auto;aspect-ratio:198/130}
+.card h3{font-size:15px;margin:10px 12px 4px 0;padding-left:0}
+.card p{font-size:11px;color:var(--muted)}
+.card .price{font-size:16px;font-weight:700;color:var(--text);margin-top:10px}
+.card h3,.card p{padding:0 12px}
+.card h3{margin-right:0}
+
+.promos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;align-items:center}
+.promo{border-radius:14px;padding:20px 24px 24px;display:flex;flex-direction:column;gap:8px}
+.promo small{font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--accent)}
+.promo h3{font-size:25px;line-height:1.3}
+.promo p{font-size:13px;color:var(--muted)}
+.promo--pink{background:var(--promo-pink)}
+.promo--green{background:var(--promo-green)}.promo--green small{color:var(--green)}
+.promo--cream{background:var(--cream)}
+
+.about{background:var(--surface)}
+.about .wrap{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:44px;align-items:center;padding-top:34px;padding-bottom:34px}
+.about h2{font-size:27px;margin-bottom:12px}
+.about p{font-size:14px;color:var(--muted);margin-bottom:22px}
+.perks{background:var(--bg);border-radius:14px;padding:18px 22px;display:grid;gap:15px;list-style:none;margin:0}
+.perks b{display:block;font-size:15px}.perks span{font-size:12px;color:var(--muted)}
+.delivery ul{list-style:none;margin:0;padding:0;font-size:15px;color:var(--muted)}
+
+footer{background:var(--surface);border-top:1px solid rgba(128,128,128,.15)}
+footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:30px;min-height:100px;flex-wrap:wrap}
+footer .logo-f{font-size:23px;font-weight:700}
+footer nav{display:flex;gap:28px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+footer nav a:hover{color:var(--accent)}
+footer .fc{font-size:13px;font-weight:700;line-height:1.5}
+
+/* modal */
+dialog{border:0;border-radius:20px;padding:28px;background:var(--surface);color:var(--text);width:min(420px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(33,41,38,.45)}
+dialog h3{font-size:22px;margin-bottom:6px}dialog p{color:var(--muted);font-size:14px;margin-bottom:16px}
+dialog input{width:100%;height:46px;border:1px solid rgba(128,128,128,.35);border-radius:12px;padding:0 14px;font:inherit;background:var(--bg);color:var(--text);margin-bottom:12px}
+dialog .row{display:flex;gap:10px;justify-content:flex-end}
+
+@media (max-width:1000px){
+  .nav,.contact{display:none}.burger{display:block}
+  .header.open .nav{display:flex;flex-direction:column;position:absolute;top:76px;left:0;right:0;background:var(--surface);padding:12px clamp(16px,5vw,70px) 20px;gap:4px;margin:0;box-shadow:var(--shadow)}
+  .header.open .nav a{padding:12px 0}
+  .hero .wrap,.about .wrap{grid-template-columns:1fr}
+}
+@media (max-width:520px){.btn{width:100%}.promo h3{font-size:22px}}
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="wrap">
+    <a href="#top" class="logo"><b>Bloomery</b><small>Цветы, которые говорят за вас</small></a>
+    <nav class="nav" id="nav">
+      <a href="#top" class="active">Главная</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#promos">Акции</a>
+      <a href="#about">О нас</a>
+      <a href="#delivery">Доставка</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="contact">
+      <a class="phone" href="tel:+79991234567">+7 (999) 123-45-67</a>
+      <button class="btn" data-open="Написать нам">Написать нам</button>
+    </div>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="lead">Авторские букеты, быстрая доставка<br>и внимание к каждой детали</p>
+        <h1>Свежие цветы<br>для особенных<br>моментов</h1>
+        <div class="actions">
+          <a class="btn" href="#catalog">Выбрать букет →</a>
+          <button class="btn btn--light" data-open="Получить консультацию">Получить консультацию →</button>
+        </div>
+      </div>
+      <div class="art" aria-hidden="true">
+        <b>С любовью,<br>Bloomery</b>
+        <svg viewBox="0 0 650 350" preserveAspectRatio="xMidYMid slice">
+          <g id="flowers"></g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <section id="catalog"><div class="wrap">
+    <h2>Популярные букеты</h2>
+    <div class="cards" id="cards"></div>
+  </div></section>
+
+  <section id="promos" style="padding-top:10px"><div class="wrap promos">
+    <article class="promo promo--pink"><small>СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ</small><h3>Скидка 15%<br>на первый заказ</h3><p>Подарите близким особенные цветы</p></article>
+    <article class="promo promo--green"><small>СЕЗОННОЕ ПРЕДЛОЖЕНИЕ</small><h3>Свежие тюльпаны</h3><p>Сезонные букеты по специальным ценам</p></article>
+    <article class="promo promo--cream"><small>МАЛЕНЬКИЙ ПОДАРОК</small><h3>Открытка в подарок</h3><p>К каждому заказу добавим тёплые слова</p></article>
+  </div></section>
+
+  <section class="about" id="about" style="padding:0"><div class="wrap">
+    <div>
+      <h2>Bloomery — больше,<br>чем просто цветы</h2>
+      <p>Мы создаём букеты, которые передают чувства. Внимательно отбираем цветы и собираем каждую композицию вручную.</p>
+      <a class="btn btn--link" href="#about">Узнать больше →</a>
+    </div>
+    <ul class="perks">
+      <li><b>Только свежие цветы</b><span>От проверенных поставщиков</span></li>
+      <li><b>Авторские букеты</b><span>Уникальные композиции</span></li>
+      <li><b>Индивидуальный подход</b><span>Учтём ваши пожелания</span></li>
+      <li><b>Забота о каждом клиенте</b><span>Поможем выбрать идеальный букет</span></li>
+    </ul>
+    <div class="delivery" id="delivery">
+      <h2>Быстрая и удобная<br>доставка</h2>
+      <ul><li>Доставка от 1 часа</li><li>Самовывоз из магазина</li><li>Ежедневно с 8:00 до 21:00</li></ul>
+    </div>
+  </div></section>
+</main>
+
+<footer id="contacts"><div class="wrap">
+  <span class="logo-f">Bloomery</span>
+  <nav><a href="#top">Главная</a><a href="#catalog">Каталог</a><a href="#promos">Акции</a><a href="#about">О нас</a><a href="#delivery">Доставка</a><a href="#contacts">Контакты</a></nav>
+  <div class="fc">+7 (999) 123-45-67<br>Ежедневно 8:00–21:00</div>
+</div></footer>
+
+<dialog id="dlg">
+  <h3 id="dlgTitle"></h3>
+  <p>Оставьте номер телефона — мы перезвоним в течение 15 минут.</p>
+  <input id="dlgPhone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+  <div class="row"><button class="btn btn--light" id="dlgClose">Отмена</button><button class="btn" id="dlgSend">Отправить</button></div>
+</dialog>
+
+<script>
+const bouquets=[
+  ['Нежность','Пионы, розы, эвкалипт','3 490 ₽','--c1'],
+  ['Любовь','Красные розы','3 990 ₽','--c2'],
+  ['Счастье','Розы и альстромерии','2 990 ₽','--c3'],
+  ['Чистые чувства','Белые тюльпаны','2 490 ₽','--c4'],
+  ['Для тебя','Розы и гортензии','4 490 ₽','--c5'],
+  ['Яркий день','Герберы и хризантемы','3 290 ₽','--c6']
+];
+document.getElementById('cards').innerHTML=bouquets.map(([n,d,p,c])=>`
+  <article class="card" tabindex="0">
+    <svg viewBox="0 0 198 130" aria-hidden="true"><rect width="198" height="130" fill="var(${c})"/>
+      <circle cx="37" cy="46" r="17" fill="#fffefc"/><circle cx="108" cy="48" r="29" fill="#fffefc" transform="translate(0 0)"/>
+      <circle cx="84" cy="64" r="20" fill="#e0406b"/><circle cx="149" cy="50" r="22" fill="#fffefc"/></svg>
+    <h3>${n}</h3><p>${d}</p><p class="price">${p}</p>
+  </article>`).join('');
+
+// иллюстрация букета: [cx, cy, r, цвет лепестков, цвет середины]
+const fl=[[235,55,57.5,'#f0a5b0'],[320,110,50,'#f8c5cc'],[160,145,47.5,'#f2c9a0'],[390,180,45,'#e0829a'],[280,225,42.5,'#f5b5c0'],[465,95,39,'#fad9c8']];
+document.getElementById('flowers').innerHTML=fl.map(([x,y,r,c])=>
+  `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${x}" cy="${y}" r="${r*.32}" fill="#f8e6b8"/>`).join('');
+
+// меню
+const header=document.getElementById('header'),burger=document.getElementById('burger');
+burger.onclick=()=>{const o=header.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>header.classList.remove('open')));
+
+// подсветка пункта меню при прокрутке
+const links=[...document.querySelectorAll('#nav a')];
+const targets=links.map(a=>document.querySelector(a.getAttribute('href')));
+addEventListener('scroll',()=>{
+  const y=scrollY+120;let i=0;
+  targets.forEach((t,k)=>{if(t&&t.offsetTop<=y)i=k});
+  links.forEach((a,k)=>a.classList.toggle('active',k===i));
+},{passive:true});
+
+// модальное окно
+const dlg=document.getElementById('dlg');
+document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{
+  document.getElementById('dlgTitle').textContent=b.dataset.open;dlg.showModal()});
+document.getElementById('dlgClose').onclick=()=>dlg.close();
+document.getElementById('dlgSend').onclick=()=>{
+  const p=document.getElementById('dlgPhone');
+  if(p.value.replace(/\D/g,'').length<10){p.focus();return}
+  dlg.close();p.value='';alert('Спасибо! Мы скоро свяжемся с вами.');
+};
+</script>
+</body>
+</html>
